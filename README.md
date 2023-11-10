@@ -19,12 +19,14 @@
 Cinema Plus is more than just a cinema application; it's a constellation of features that ensures a
 stellar entertainment experience:
 
-
+- 
 
 ## ⌚ Upcoming Features
 
-
+- 
 
 ## 🚀 Getting Started
+
+- 
 
 Get the app from the release page.
