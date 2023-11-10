@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
             CinemaPlusTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.primary
                 ) {
                     SplashScreenTest()
                 }

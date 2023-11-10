@@ -18,16 +18,26 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = PrussianBlue, // Using Prussian Blue as primary color for dark mode
+    primary = VividSkyBlue, // Using Prussian Blue as primary color
     secondary = OxfordBlue,
     tertiary = VividSkyBlue,
     // Add other colors as necessary
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = ColumbiaBlue, // Using Columbia Blue as primary color for light mode
+    primary = ColumbiaBlue,
     secondary = AliceBlue,
     tertiary = VividSkyBlue
+
+    /* Other default colors to override
+    background = Color(0xFFFFFBFE),
+    surface = Color(0xFFFFFBFE),
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onTertiary = Color.White,
+    onBackground = Color(0xFF1C1B1F),
+    onSurface = Color(0xFF1C1B1F),
+    */
 )
 
 @Composable
@@ -46,7 +56,17 @@ fun CinemaPlusTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
-
+//    val view = LocalView.current
+//    if (!view.isInEditMode) {
+//        SideEffect {
+//            val window = (view.context as Activity).window
+//            // Adjust the status bar color if needed
+//            window.statusBarColor = colorScheme.primary.toArgb()
+//
+//            // Set status bar icons to light in dark theme
+//            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+//        }
+//    }
     val context = LocalContext.current
     val window = (context as? Activity)?.window
     val view = LocalView.current
