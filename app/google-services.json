@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "768396596724",
+    "project_id": "cinema-plus-edu",
+    "storage_bucket": "cinema-plus-edu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768396596724:android:87365fb2a9ae23c45055a1",
+        "android_client_info": {
+          "package_name": "com.example.cinemaplus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv07bbjf75OEv5kS7-OVrYsmBY3JWnONo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
