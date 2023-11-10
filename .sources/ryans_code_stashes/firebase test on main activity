@@ -1,0 +1,76 @@
+package com.example.cinemaplus
+
+import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.cinemaplus.ui.theme.CinemaPlusTheme
+import com.google.firebase.database.FirebaseDatabase
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            CinemaPlusTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Greeting("Android")
+                }
+            }
+        }
+        pushDataToFirebase()
+    }
+
+    private fun pushDataToFirebase() {
+        // Get instance of Firebase database
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("message")
+
+        // Pushing simple data
+        myRef.setValue("Hello, Firebase!").onSuccessTask {
+            // Pushing complex data
+            myRef.child("complex").setValue(
+                mapOf(
+                    "name" to "Ryan",
+                    "age" to 20,
+                    "address" to mapOf(
+                        "street" to "Main Street",
+                        "city" to "New York"
+                    )
+                )
+            )
+        }.addOnSuccessListener {
+            // Data successfully written
+            Toast.makeText(this, "Data successfully written", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener {
+            // Data failed to write
+            Toast.makeText(this, "Data failed to write", Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    CinemaPlusTheme {
+        Greeting("Android")
+    }
+}
