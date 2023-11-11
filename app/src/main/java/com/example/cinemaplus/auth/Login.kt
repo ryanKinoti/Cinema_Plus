@@ -42,7 +42,7 @@ fun loginUI() {
 
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.BottomCenter,
+        contentAlignment = Alignment.Center,
     ) {
         // Background and Logo
         Box(
@@ -60,7 +60,7 @@ fun loginUI() {
         // Login Form
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Top,
             modifier = Modifier
                 .fillMaxWidth(0.68f)
                 .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
@@ -123,7 +123,8 @@ fun loginUI() {
                 ) {
                     Text(
                         text = "Login",
-                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                        fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
                 Spacer(modifier = Modifier.padding(10.dp))
