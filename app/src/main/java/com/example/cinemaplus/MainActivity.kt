@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.cinemaplus.auth.loginUI
 import com.example.cinemaplus.ui.theme.CinemaPlusTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,23 +23,23 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.primary
                 ) {
-                    SplashScreenTest()
+                    loginUI()
                 }
             }
         }
     }
 }
 
-@Composable
-fun SplashScreenTest() {
-    BoxWithConstraints(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Welcome to Cinema Plus!",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-    }
-}
+//@Composable
+//fun SplashScreenTest() {
+//    BoxWithConstraints(
+//        modifier = Modifier.fillMaxSize(),
+//        contentAlignment = Alignment.Center
+//    ) {
+//        Text(
+//            text = "Welcome to Cinema Plus!",
+//            style = MaterialTheme.typography.bodyMedium,
+//            color = MaterialTheme.colorScheme.onBackground
+//        )
+//    }
+//}
