@@ -52,6 +52,7 @@ android {
 
 dependencies {
     implementation("com.google.firebase:firebase-auth:22.2.0")
+    implementation("com.google.firebase:firebase-firestore:24.9.1")
     val fragmentVersion = "1.6.2"
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -66,7 +67,7 @@ dependencies {
     //new dependencies
     implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
     implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-database:20.3.0")
+    //implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

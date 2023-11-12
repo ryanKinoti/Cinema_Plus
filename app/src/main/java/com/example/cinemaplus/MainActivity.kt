@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.cinemaplus.auth.LoginUI
+import com.example.cinemaplus.auth.RegistrationUI
 import com.example.cinemaplus.ui.theme.CinemaPlusTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,8 +20,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.primary
                 ) {
-                    LoginUI()
-                    //RegistrationUI()
+                    //LoginUI()
+                    RegistrationUI()
                 }
             }
         }

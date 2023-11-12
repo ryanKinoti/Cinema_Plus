@@ -1,0 +1,67 @@
+fun RegistrationUI() {
+
+    val firstName = remember { mutableStateOf("") }
+    val lastName = remember { mutableStateOf("") }
+    val emailValue = remember { mutableStateOf("") }
+    val phoneNumber = remember { mutableStateOf("") }
+    val passwordValue = remember { mutableStateOf("") }
+    val passwordVisibility = remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        // Header Box for Logo and Title
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopCenter),
+            contentAlignment = Alignment.TopCenter,
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.logo_250dp),
+                    contentDescription = null,
+                    modifier = Modifier.width(100.dp)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                // Form title
+                Text(
+                    text = "Welcome to Cinema Plus Registration!",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        }
+
+        // Form Fields Box
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Bottom,
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                .background(color = MaterialTheme.colorScheme.primary),
+        ) {
+            // Add your text fields here
+            OutlinedTextField(
+                label = { Text(text = "First Name") },
+                value = firstName.value,
+                onValueChange = { firstName.value = it },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    cursorColor = MaterialTheme.colorScheme.onBackground, // Choose a color that stands out against the TextField background
+                    focusedBorderColor = MaterialTheme.colorScheme.onBackground, // Primary color for the focused border
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f), // Custom alpha for the unfocused border
+                    textColor = MaterialTheme.colorScheme.onSurface, // Ensuring text color stands out against the TextField background
+                ),
+            )
+
+        }
+    }
+}

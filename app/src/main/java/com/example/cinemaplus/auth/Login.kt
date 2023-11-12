@@ -1,5 +1,6 @@
 package com.example.cinemaplus.auth
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -43,6 +45,7 @@ fun LoginUI() {
     val emailValue = remember { mutableStateOf("") }
     val passwordValue = remember { mutableStateOf("") }
     val passwordVisibility = remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -126,7 +129,9 @@ fun LoginUI() {
 
                 //login button
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        loginLogic(emailValue.value, passwordValue.value, context)
+                    },
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
                         .clip(RoundedCornerShape(10.dp))
@@ -184,4 +189,8 @@ fun LoginUI() {
             }
         }
     }
+}
+
+private fun loginLogic(email: String, password: String, context: Context) {
+
 }
