@@ -6,11 +6,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -27,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -144,9 +147,37 @@ fun loginUI() {
                 }
                 Spacer(modifier = Modifier.padding(10.dp))
 
+                Button(
+                    onClick = { /* TODO: Implement Google Sign-In logic */ },
+                    modifier = Modifier
+                        .fillMaxWidth(1f)
+                        .clip(RoundedCornerShape(10.dp))
+                        .height(40.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth(0.8f),
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.google_logo),
+                            contentDescription = "Google sign-in",
+                            tint = Color.Unspecified // Removing tint in order to keep the original icon color
+                        )
+                        Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
+                        Text(
+                            text = "Continue with Google",
+                            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.padding(10.dp))
+
                 Text(
                     text = "Don't have an account? Sign up",
-                    modifier = Modifier.clickable(onClick = { registrationUI() }),
+                    modifier = Modifier.clickable(onClick = { /*TODO*/ }),
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.padding(10.dp))
