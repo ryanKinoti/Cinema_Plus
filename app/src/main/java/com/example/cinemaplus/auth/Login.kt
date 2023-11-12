@@ -38,7 +38,7 @@ import com.example.cinemaplus.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun loginUI() {
+fun LoginUI() {
 
     val emailValue = remember { mutableStateOf("") }
     val passwordValue = remember { mutableStateOf("") }
