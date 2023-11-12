@@ -24,22 +24,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.primary
                 ) {
                     loginUI()
+                    statusChecker()
                 }
             }
         }
     }
 }
 
-//@Composable
-//fun SplashScreenTest() {
-//    BoxWithConstraints(
-//        modifier = Modifier.fillMaxSize(),
-//        contentAlignment = Alignment.Center
-//    ) {
-//        Text(
-//            text = "Welcome to Cinema Plus!",
-//            style = MaterialTheme.typography.bodyMedium,
-//            color = MaterialTheme.colorScheme.onBackground
-//        )
-//    }
-//}
+fun statusChecker() {
+    //the following code is to check whether the individual has an account saved on their device if not open the normal sequence of screens
+
+}

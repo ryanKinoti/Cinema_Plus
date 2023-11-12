@@ -20,6 +20,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,7 +70,7 @@ fun loginUI() {
             //form title
             Text(
                 text = "Welcome to Cinema Plus Login!",
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.padding(10.dp))
@@ -80,36 +81,46 @@ fun loginUI() {
             ) {
 
                 OutlinedTextField(
+                    label = { Text(text = "Email Address") },
                     value = emailValue.value,
                     onValueChange = { emailValue.value = it },
-                    label = { Text(text = "Email Address") },
-                    placeholder = { Text(text = "Email Address") },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth(1f)
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        cursorColor = MaterialTheme.colorScheme.onBackground, // Choose a color that stands out against the TextField background
+                        focusedBorderColor = MaterialTheme.colorScheme.onBackground, // Primary color for the focused border
+                        unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f), // Custom alpha for the unfocused border
+                        textColor = MaterialTheme.colorScheme.onSurface, // Ensuring text color stands out against the TextField background
+                    ),
                 )
-
+                Spacer(modifier = Modifier.padding(10.dp))
                 OutlinedTextField(
+                    label = { Text(text = "Password") },
                     value = passwordValue.value,
                     onValueChange = { passwordValue.value = it },
-                    label = { Text(text = "Password") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                    visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(onClick = {
                             passwordVisibility.value = !passwordVisibility.value
                         }) {
                             Icon(
-                                painter = painterResource(id = R.drawable.password_check),
-                                contentDescription = null,
-                                tint = if (passwordVisibility.value) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground
+                                painter = painterResource(id = if (passwordVisibility.value) R.drawable.password_hide else R.drawable.password_show),
+                                contentDescription = if (passwordVisibility.value) "Hide password" else "Show password",
+                                tint = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     },
-                    placeholder = { Text(text = "Password") },
-                    singleLine = true,
-                    visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth(1f)
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        cursorColor = MaterialTheme.colorScheme.onBackground, // Choose a color that stands out against the TextField background
+                        focusedBorderColor = MaterialTheme.colorScheme.onBackground, // Primary color for the focused border
+                        unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f), // Custom alpha for the unfocused border
+                        textColor = MaterialTheme.colorScheme.onSurface, // Ensuring text color stands out against the TextField background
+                    ),
                 )
                 Spacer(modifier = Modifier.padding(10.dp))
-                
+
                 //login button
                 Button(
                     onClick = { /*TODO*/ },
@@ -124,14 +135,18 @@ fun loginUI() {
                     Text(
                         text = "Login",
                         fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                        color = if (emailValue.value.isNotEmpty() && passwordValue.value.isNotEmpty())
+                            MaterialTheme.colorScheme.onBackground
+                        else
+                            MaterialTheme.colorScheme.onSecondary,
+
+                        )
                 }
                 Spacer(modifier = Modifier.padding(10.dp))
 
                 Text(
                     text = "Don't have an account? Sign up",
-                    modifier = Modifier.clickable(onClick = { /*TODO*/ }),
+                    modifier = Modifier.clickable(onClick = { registrationUI() }),
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.padding(10.dp))
