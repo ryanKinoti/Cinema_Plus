@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.cinemaplus.MainActivity
 import com.example.cinemaplus.R
 
@@ -21,5 +22,13 @@ class SplashScreen: AppCompatActivity() {
             finish()
         }, 3000)
     }
+
+}
+
+class IntroFragment: Fragment(){
+
+}
+
+class AuthFragment: Fragment(){
 
 }

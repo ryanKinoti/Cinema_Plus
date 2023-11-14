@@ -37,6 +37,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.cinemaplus.R
+import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -192,5 +193,25 @@ fun LoginUI() {
 }
 
 private fun loginLogic(email: String, password: String, context: Context) {
+    if (FirebaseAuth.getInstance().currentUser != null) {
+        // User is already logged in, proceed to the main part of your app
+    } else {
+        // No user is logged in, show the login screen
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val firebaseUser = task.result?.user
+
+                    if (firebaseUser != null && firebaseUser.isEmailVerified) {
+                        // Email is verified, proceed with the login
+                    } else {
+                        // Email is not verified
+                        // Prompt user to verify email or resend verification email
+                    }
+                } else {
+                    // Handle login failure
+                }
+            }
+    }
 
 }
