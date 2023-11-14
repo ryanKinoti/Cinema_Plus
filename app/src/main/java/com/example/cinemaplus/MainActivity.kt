@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.cinemaplus.auth.Login
 import com.example.cinemaplus.auth.Registration
 import com.example.cinemaplus.ui.theme.CinemaPlusTheme
 
@@ -19,8 +20,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.primary
                 ) {
-                    Registration.init(this)
-                    Registration.RegistrationUI()
+                    //uncomment and comment one to switch between the two.
+
+                    //Registration.init(this)
+                    //Registration.RegistrationUI()
+
+                    Login.init(this)
+                    Login.LoginUI()
                 }
             }
         }

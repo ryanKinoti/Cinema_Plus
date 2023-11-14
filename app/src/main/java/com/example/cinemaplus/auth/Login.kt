@@ -39,179 +39,191 @@ import androidx.compose.ui.unit.dp
 import com.example.cinemaplus.R
 import com.google.firebase.auth.FirebaseAuth
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun LoginUI() {
-
-    val emailValue = remember { mutableStateOf("") }
-    val passwordValue = remember { mutableStateOf("") }
-    val passwordVisibility = remember { mutableStateOf(false) }
-    val context = LocalContext.current
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        // Background and Logo
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.primary),
-            contentAlignment = Alignment.TopCenter,
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.logo_250dp),
-                contentDescription = null
-            )
+class Login {
+    companion object {
+        fun init(context: Context) {
         }
 
-        // Login Form
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top,
-            modifier = Modifier
-                .fillMaxWidth(0.68f)
-                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(color = MaterialTheme.colorScheme.primary)
-        ) {
-            //form title
-            Text(
-                text = "Welcome to Cinema Plus Login!",
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Spacer(modifier = Modifier.padding(10.dp))
+        @OptIn(ExperimentalMaterial3Api::class)
+        @Composable
+        fun LoginUI() {
 
-            //text and password fields
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+            val emailValue = remember { mutableStateOf("") }
+            val passwordValue = remember { mutableStateOf("") }
+            val passwordVisibility = remember { mutableStateOf(false) }
+            val context = LocalContext.current
+
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
             ) {
-
-                OutlinedTextField(
-                    label = { Text(text = "Email Address") },
-                    value = emailValue.value,
-                    onValueChange = { emailValue.value = it },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        cursorColor = MaterialTheme.colorScheme.onBackground, // Choose a color that stands out against the TextField background
-                        focusedBorderColor = MaterialTheme.colorScheme.onBackground, // Primary color for the focused border
-                        unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f), // Custom alpha for the unfocused border
-                        textColor = MaterialTheme.colorScheme.onSurface, // Ensuring text color stands out against the TextField background
-                    ),
-                )
-                Spacer(modifier = Modifier.padding(10.dp))
-                OutlinedTextField(
-                    label = { Text(text = "Password") },
-                    value = passwordValue.value,
-                    onValueChange = { passwordValue.value = it },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(),
-                    visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(onClick = {
-                            passwordVisibility.value = !passwordVisibility.value
-                        }) {
-                            Icon(
-                                painter = painterResource(id = if (passwordVisibility.value) R.drawable.password_hide else R.drawable.password_show),
-                                contentDescription = if (passwordVisibility.value) "Hide password" else "Show password",
-                                tint = MaterialTheme.colorScheme.onBackground
-                            )
-                        }
-                    },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        cursorColor = MaterialTheme.colorScheme.onBackground, // Choose a color that stands out against the TextField background
-                        focusedBorderColor = MaterialTheme.colorScheme.onBackground, // Primary color for the focused border
-                        unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f), // Custom alpha for the unfocused border
-                        textColor = MaterialTheme.colorScheme.onSurface, // Ensuring text color stands out against the TextField background
-                    ),
-                )
-                Spacer(modifier = Modifier.padding(10.dp))
-
-                //login button
-                Button(
-                    onClick = {
-                        loginLogic(emailValue.value, passwordValue.value, context)
-                    },
+                // Background and Logo
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .clip(RoundedCornerShape(10.dp))
-                        .height(50.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    enabled = emailValue.value.isNotEmpty() && passwordValue.value.isNotEmpty(),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                        .fillMaxSize()
+                        .background(color = MaterialTheme.colorScheme.primary),
+                    contentAlignment = Alignment.TopCenter,
                 ) {
-                    Text(
-                        text = "Login",
-                        fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                        color = if (emailValue.value.isNotEmpty() && passwordValue.value.isNotEmpty())
-                            MaterialTheme.colorScheme.onBackground
-                        else
-                            MaterialTheme.colorScheme.onSecondary,
-
-                        )
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_250dp),
+                        contentDescription = null
+                    )
                 }
-                Spacer(modifier = Modifier.padding(10.dp))
 
-                Button(
-                    onClick = { /* TODO: Implement Google Sign-In logic */ },
+                // Login Form
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top,
                     modifier = Modifier
-                        .fillMaxWidth(1f)
-                        .clip(RoundedCornerShape(10.dp))
-                        .height(40.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                        .fillMaxWidth(0.68f)
+                        .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                        .background(color = MaterialTheme.colorScheme.primary)
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxWidth(0.8f),
+                    //form title
+                    Text(
+                        text = "Welcome to Cinema Plus Login!",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                    Spacer(modifier = Modifier.padding(10.dp))
+
+                    //text and password fields
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.google_logo),
-                            contentDescription = "Google sign-in",
-                            tint = Color.Unspecified // Removing tint in order to keep the original icon color
+
+                        OutlinedTextField(
+                            label = { Text(text = "Email Address") },
+                            value = emailValue.value,
+                            onValueChange = { emailValue.value = it },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                cursorColor = MaterialTheme.colorScheme.onBackground, // Choose a color that stands out against the TextField background
+                                focusedBorderColor = MaterialTheme.colorScheme.onBackground, // Primary color for the focused border
+                                unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(
+                                    alpha = 0.3f
+                                ), // Custom alpha for the unfocused border
+                                textColor = MaterialTheme.colorScheme.onSurface, // Ensuring text color stands out against the TextField background
+                            ),
                         )
-                        Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
+                        Spacer(modifier = Modifier.padding(10.dp))
+                        OutlinedTextField(
+                            label = { Text(text = "Password") },
+                            value = passwordValue.value,
+                            onValueChange = { passwordValue.value = it },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                            visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
+                            trailingIcon = {
+                                IconButton(onClick = {
+                                    passwordVisibility.value = !passwordVisibility.value
+                                }) {
+                                    Icon(
+                                        painter = painterResource(id = if (passwordVisibility.value) R.drawable.password_hide else R.drawable.password_show),
+                                        contentDescription = if (passwordVisibility.value) "Hide password" else "Show password",
+                                        tint = MaterialTheme.colorScheme.onBackground
+                                    )
+                                }
+                            },
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                cursorColor = MaterialTheme.colorScheme.onBackground, // Choose a color that stands out against the TextField background
+                                focusedBorderColor = MaterialTheme.colorScheme.onBackground, // Primary color for the focused border
+                                unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(
+                                    alpha = 0.3f
+                                ), // Custom alpha for the unfocused border
+                                textColor = MaterialTheme.colorScheme.onSurface, // Ensuring text color stands out against the TextField background
+                            ),
+                        )
+                        Spacer(modifier = Modifier.padding(10.dp))
+
+                        //login button
+                        Button(
+                            onClick = {
+                                loginLogic(emailValue.value, passwordValue.value, context)
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth(0.8f)
+                                .clip(RoundedCornerShape(10.dp))
+                                .height(50.dp),
+                            shape = RoundedCornerShape(10.dp),
+                            enabled = emailValue.value.isNotEmpty() && passwordValue.value.isNotEmpty(),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                        ) {
+                            Text(
+                                text = "Login",
+                                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                color = if (emailValue.value.isNotEmpty() && passwordValue.value.isNotEmpty())
+                                    MaterialTheme.colorScheme.onBackground
+                                else
+                                    MaterialTheme.colorScheme.onSecondary,
+
+                                )
+                        }
+                        Spacer(modifier = Modifier.padding(10.dp))
+
+                        Button(
+                            onClick = { /* TODO: Implement Google Sign-In logic */ },
+                            modifier = Modifier
+                                .fillMaxWidth(1f)
+                                .clip(RoundedCornerShape(10.dp))
+                                .height(40.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                                modifier = Modifier.fillMaxWidth(0.8f),
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.google_logo),
+                                    contentDescription = "Google sign-in",
+                                    tint = Color.Unspecified // Removing tint in order to keep the original icon color
+                                )
+                                Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
+                                Text(
+                                    text = "Continue with Google",
+                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.padding(10.dp))
+
                         Text(
-                            text = "Continue with Google",
-                            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                            text = "Don't have an account? Sign up",
+                            modifier = Modifier.clickable(onClick = { /*TODO*/ }),
                             color = MaterialTheme.colorScheme.onBackground
                         )
+                        Spacer(modifier = Modifier.padding(10.dp))
                     }
                 }
-                Spacer(modifier = Modifier.padding(10.dp))
-
-                Text(
-                    text = "Don't have an account? Sign up",
-                    modifier = Modifier.clickable(onClick = { /*TODO*/ }),
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                Spacer(modifier = Modifier.padding(10.dp))
             }
+        }
+
+        private fun loginLogic(email: String, password: String, context: Context) {
+            if (FirebaseAuth.getInstance().currentUser != null) {
+                // User is already logged in, proceed to the main part of your app
+            } else {
+                // No user is logged in, show the login screen
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val firebaseUser = task.result?.user
+
+                            if (firebaseUser != null && firebaseUser.isEmailVerified) {
+                                // Email is verified, proceed with the login
+                            } else {
+                                // Email is not verified
+                                // Prompt user to verify email or resend verification email
+                            }
+                        } else {
+                            // Handle login failure
+                        }
+                    }
+            }
+
         }
     }
 }
 
-private fun loginLogic(email: String, password: String, context: Context) {
-    if (FirebaseAuth.getInstance().currentUser != null) {
-        // User is already logged in, proceed to the main part of your app
-    } else {
-        // No user is logged in, show the login screen
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val firebaseUser = task.result?.user
-
-                    if (firebaseUser != null && firebaseUser.isEmailVerified) {
-                        // Email is verified, proceed with the login
-                    } else {
-                        // Email is not verified
-                        // Prompt user to verify email or resend verification email
-                    }
-                } else {
-                    // Handle login failure
-                }
-            }
-    }
-
-}
