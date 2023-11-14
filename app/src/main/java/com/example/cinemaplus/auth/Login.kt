@@ -1,6 +1,7 @@
 package com.example.cinemaplus.auth
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -204,6 +205,12 @@ class Login {
         private fun loginLogic(email: String, password: String, context: Context) {
             if (FirebaseAuth.getInstance().currentUser != null) {
                 // User is already logged in, proceed to the main part of your app
+                Toast.makeText(
+                    context,
+                    "normal login is working there is at least a normal login and registration",
+                    Toast.LENGTH_SHORT
+                ).show()
+
             } else {
                 // No user is logged in, show the login screen
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
@@ -212,13 +219,30 @@ class Login {
                             val firebaseUser = task.result?.user
 
                             if (firebaseUser != null && firebaseUser.isEmailVerified) {
-                                // Email is verified, proceed with the login
+
+                                Toast.makeText(
+                                    context,
+                                    "thank god everything is working",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
                             } else {
-                                // Email is not verified
-                                // Prompt user to verify email or resend verification email
+
+                                Toast.makeText(
+                                    context,
+                                    "no verification is done",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
                             }
                         } else {
-                            // Handle login failure
+
+                            Toast.makeText(
+                                context,
+                                "login aint working mehn!!! FIX IT!!!!!!!!!!!!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
                         }
                     }
             }
