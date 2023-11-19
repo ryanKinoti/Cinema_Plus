@@ -6,10 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.cinemaplus.auth.Login
+import com.example.cinemaplus.auth.Registration
 import com.example.cinemaplus.ui.theme.CinemaPlusTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,30 +16,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CinemaPlusTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.primary
                 ) {
-                    Greeting("Android")
+                    //uncomment and comment one to switch between the two.
+
+                    //Registration.init(this)
+                    //Registration.RegistrationUI()
+
+                    Login.init(this)
+                    Login.LoginUI()
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CinemaPlusTheme {
-        Greeting("Android")
-    }
+fun statusChecker() {
+    //the following code is to check whether the individual has an account saved on their device if not open the normal sequence of screens
 }
