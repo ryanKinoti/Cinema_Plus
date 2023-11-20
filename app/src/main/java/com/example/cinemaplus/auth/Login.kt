@@ -1,7 +1,9 @@
 package com.example.cinemaplus.auth
 
 import android.content.Context
+import android.content.Intent
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,8 +28,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,13 +41,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.example.cinemaplus.MainActivity
 import com.example.cinemaplus.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
-class Login {
+class Login : AppCompatActivity() {
     companion object {
-        fun init(context: Context) {
-        }
 
         @OptIn(ExperimentalMaterial3Api::class)
         @Composable
@@ -191,63 +198,100 @@ class Login {
                         }
                         Spacer(modifier = Modifier.padding(10.dp))
 
-                        Text(
-                            text = "Don't have an account? Sign up",
-                            modifier = Modifier.clickable(onClick = { /*TODO*/ }),
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
+                        Button(
+                            onClick = {  },
+                            modifier = Modifier
+                                .fillMaxWidth(1f)
+                                .clip(RoundedCornerShape(10.dp))
+                                .height(40.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                                modifier = Modifier.fillMaxWidth(0.8f),
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.logo_250dp),
+                                    contentDescription = "sign-up",
+                                    tint = Color.Unspecified // Removing tint in order to keep the original icon color
+                                )
+                                Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
+                                Text(
+                                    text = "Register Instead",
+                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
+                        }
                         Spacer(modifier = Modifier.padding(10.dp))
                     }
                 }
             }
         }
 
-        private fun loginLogic(email: String, password: String, context: Context) {
-            if (FirebaseAuth.getInstance().currentUser != null) {
-                // User is already logged in, proceed to the main part of your app
-                Toast.makeText(
-                    context,
-                    "normal login is working there is at least a normal login and registration",
-                    Toast.LENGTH_SHORT
-                ).show()
+        @Composable
+        fun MyScreen() {
+            var showRegistrationUI by remember { mutableStateOf(false) }
 
+            if (showRegistrationUI) {
+                Registration.RegistrationUI()
             } else {
-                // No user is logged in, show the login screen
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val firebaseUser = task.result?.user
+                // Your existing UI including the button
+                //MyButton(onClick = { showRegistrationUI = true })
+            }
+        }
 
-                            if (firebaseUser != null && firebaseUser.isEmailVerified) {
+        private fun loginLogic(email: String, password: String, context: Context) {
+            // No user is logged in, show the login screen
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val firebaseUser = task.result?.user
 
-                                Toast.makeText(
-                                    context,
-                                    "thank god everything is working",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                        if (firebaseUser != null && firebaseUser.isEmailVerified) {
 
-                            } else {
+                            val userId = firebaseUser.uid
+                            val userRef =
+                                FirebaseFirestore.getInstance().collection("users").document(userId)
 
-                                Toast.makeText(
-                                    context,
-                                    "no verification is done",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                            userRef.get().addOnSuccessListener { document ->
+                                if (document != null) {
+                                    Toast.makeText(
+                                        context,
+                                        "Login Successfull. Welcome to Cinema Plus",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                    val intent = Intent(context, MainActivity::class.java)
+                                    context.startActivity(intent)
+
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "Your record does not exist",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
 
                             }
                         } else {
 
                             Toast.makeText(
                                 context,
-                                "login aint working mehn!!! FIX IT!!!!!!!!!!!!",
+                                "your email: $email has not been verified",
                                 Toast.LENGTH_SHORT
                             ).show()
 
                         }
                     }
-            }
-
+                }.addOnFailureListener { e ->
+                    Toast.makeText(
+                        context,
+                        "There is an error: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
         }
     }
 }
-

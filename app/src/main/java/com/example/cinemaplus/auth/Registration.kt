@@ -23,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getString
 import com.example.cinemaplus.R
+import com.example.cinemaplus.ui.theme.CinemaPlusTheme
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -48,10 +50,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 class Registration {
 
     companion object {
-        fun init(context: Context) {
-            // ...
-            //RegistrationUi()
-        }
         @OptIn(ExperimentalMaterial3Api::class)
         @Composable
         fun RegistrationUI() {
