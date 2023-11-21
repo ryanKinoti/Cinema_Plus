@@ -3,6 +3,7 @@ package com.example.cinemaplus
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,7 @@ import com.example.cinemaplus.home.Main
 import com.example.cinemaplus.ui.theme.CinemaPlusTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.system.exitProcess
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +72,15 @@ fun MyApp() {
                 }
         } else {
             isLoading = false // Set to false if there is no user
+        }
+    }
+
+    if (user != null && showMainUI) {
+        BackHandler {
+            // Define what should happen when the back button is pressed
+            // For example, you could simply do nothing to disable back navigation:
+            // or you could close the app or move it to background:
+            exitProcess(0)
         }
     }
 

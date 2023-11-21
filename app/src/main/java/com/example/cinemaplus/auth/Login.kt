@@ -61,176 +61,182 @@ class Login : AppCompatActivity() {
             val passwordVisibility = remember { mutableStateOf(false) }
             val context = LocalContext.current
             var showRegistration by remember { mutableStateOf(false) }
+            val user by remember { mutableStateOf(FirebaseAuth.getInstance().currentUser) }
 
             if (showRegistration) {
                 Registration.RegistrationUI()
             } else {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    // Background and Logo
+                if (user == null) {
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(color = MaterialTheme.colorScheme.primary),
-                        contentAlignment = Alignment.TopCenter,
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.logo_250dp),
-                            contentDescription = null
-                        )
-                    }
+                        // Background and Logo
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color = MaterialTheme.colorScheme.primary),
+                            contentAlignment = Alignment.TopCenter,
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.logo_250dp),
+                                contentDescription = null
+                            )
+                        }
 
-                    // Login Form
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Top,
-                        modifier = Modifier
-                            .fillMaxWidth(0.68f)
-                            .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                            .background(color = MaterialTheme.colorScheme.primary)
-                    ) {
-                        //form title
-                        Text(
-                            text = "Welcome to Cinema Plus Login!",
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                        Spacer(modifier = Modifier.padding(10.dp))
-
-                        //text and password fields
+                        // Login Form
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Top,
+                            modifier = Modifier
+                                .fillMaxWidth(0.68f)
+                                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                                .background(color = MaterialTheme.colorScheme.primary)
                         ) {
-
-                            OutlinedTextField(
-                                label = { Text(text = "Email Address") },
-                                value = emailValue.value,
-                                onValueChange = { emailValue.value = it },
-                                singleLine = true,
-                                modifier = Modifier.fillMaxWidth(),
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    cursorColor = MaterialTheme.colorScheme.onBackground, // Choose a color that stands out against the TextField background
-                                    focusedBorderColor = MaterialTheme.colorScheme.onBackground, // Primary color for the focused border
-                                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(
-                                        alpha = 0.3f
-                                    ), // Custom alpha for the unfocused border
-                                    textColor = MaterialTheme.colorScheme.onSurface, // Ensuring text color stands out against the TextField background
-                                ),
+                            //form title
+                            Text(
+                                text = "Welcome to Cinema Plus Login!",
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(modifier = Modifier.padding(10.dp))
-                            OutlinedTextField(
-                                label = { Text(text = "Password") },
-                                value = passwordValue.value,
-                                onValueChange = { passwordValue.value = it },
-                                singleLine = true,
-                                modifier = Modifier.fillMaxWidth(),
-                                visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
-                                trailingIcon = {
-                                    IconButton(onClick = {
-                                        passwordVisibility.value = !passwordVisibility.value
-                                    }) {
+
+                            //text and password fields
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+
+                                OutlinedTextField(
+                                    label = { Text(text = "Email Address") },
+                                    value = emailValue.value,
+                                    onValueChange = { emailValue.value = it },
+                                    singleLine = true,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                                        cursorColor = MaterialTheme.colorScheme.onBackground, // Choose a color that stands out against the TextField background
+                                        focusedBorderColor = MaterialTheme.colorScheme.onBackground, // Primary color for the focused border
+                                        unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(
+                                            alpha = 0.3f
+                                        ), // Custom alpha for the unfocused border
+                                        textColor = MaterialTheme.colorScheme.onSurface, // Ensuring text color stands out against the TextField background
+                                    ),
+                                )
+                                Spacer(modifier = Modifier.padding(10.dp))
+                                OutlinedTextField(
+                                    label = { Text(text = "Password") },
+                                    value = passwordValue.value,
+                                    onValueChange = { passwordValue.value = it },
+                                    singleLine = true,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
+                                    trailingIcon = {
+                                        IconButton(onClick = {
+                                            passwordVisibility.value = !passwordVisibility.value
+                                        }) {
+                                            Icon(
+                                                painter = painterResource(id = if (passwordVisibility.value) R.drawable.password_hide else R.drawable.password_show),
+                                                contentDescription = if (passwordVisibility.value) "Hide password" else "Show password",
+                                                tint = MaterialTheme.colorScheme.onBackground
+                                            )
+                                        }
+                                    },
+                                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                                        cursorColor = MaterialTheme.colorScheme.onBackground, // Choose a color that stands out against the TextField background
+                                        focusedBorderColor = MaterialTheme.colorScheme.onBackground, // Primary color for the focused border
+                                        unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(
+                                            alpha = 0.3f
+                                        ), // Custom alpha for the unfocused border
+                                        textColor = MaterialTheme.colorScheme.onSurface, // Ensuring text color stands out against the TextField background
+                                    ),
+                                )
+                                Spacer(modifier = Modifier.padding(10.dp))
+
+                                //login button
+                                Button(
+                                    onClick = {
+                                        loginLogic(emailValue.value, passwordValue.value, context)
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.8f)
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .height(50.dp),
+                                    shape = RoundedCornerShape(10.dp),
+                                    enabled = emailValue.value.isNotEmpty() && passwordValue.value.isNotEmpty(),
+                                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                                ) {
+                                    Text(
+                                        text = "Login",
+                                        fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                        color = if (emailValue.value.isNotEmpty() && passwordValue.value.isNotEmpty())
+                                            MaterialTheme.colorScheme.onBackground
+                                        else
+                                            MaterialTheme.colorScheme.onSecondary,
+
+                                        )
+                                }
+                                Spacer(modifier = Modifier.padding(10.dp))
+
+                                Button(
+                                    onClick = { /* TODO: Implement Google Sign-In logic */ },
+                                    modifier = Modifier
+                                        .fillMaxWidth(1f)
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .height(40.dp),
+                                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center,
+                                        modifier = Modifier.fillMaxWidth(0.8f),
+                                    ) {
                                         Icon(
-                                            painter = painterResource(id = if (passwordVisibility.value) R.drawable.password_hide else R.drawable.password_show),
-                                            contentDescription = if (passwordVisibility.value) "Hide password" else "Show password",
-                                            tint = MaterialTheme.colorScheme.onBackground
+                                            painter = painterResource(id = R.drawable.google_logo),
+                                            contentDescription = "Google sign-in",
+                                            tint = Color.Unspecified // Removing tint in order to keep the original icon color
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
+                                        Text(
+                                            text = "Continue with Google",
+                                            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                            color = MaterialTheme.colorScheme.onBackground
                                         )
                                     }
-                                },
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    cursorColor = MaterialTheme.colorScheme.onBackground, // Choose a color that stands out against the TextField background
-                                    focusedBorderColor = MaterialTheme.colorScheme.onBackground, // Primary color for the focused border
-                                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(
-                                        alpha = 0.3f
-                                    ), // Custom alpha for the unfocused border
-                                    textColor = MaterialTheme.colorScheme.onSurface, // Ensuring text color stands out against the TextField background
-                                ),
-                            )
-                            Spacer(modifier = Modifier.padding(10.dp))
-
-                            //login button
-                            Button(
-                                onClick = {
-                                    loginLogic(emailValue.value, passwordValue.value, context)
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth(0.8f)
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .height(50.dp),
-                                shape = RoundedCornerShape(10.dp),
-                                enabled = emailValue.value.isNotEmpty() && passwordValue.value.isNotEmpty(),
-                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-                            ) {
-                                Text(
-                                    text = "Login",
-                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                                    color = if (emailValue.value.isNotEmpty() && passwordValue.value.isNotEmpty())
-                                        MaterialTheme.colorScheme.onBackground
-                                    else
-                                        MaterialTheme.colorScheme.onSecondary,
-
-                                    )
-                            }
-                            Spacer(modifier = Modifier.padding(10.dp))
-
-                            Button(
-                                onClick = { /* TODO: Implement Google Sign-In logic */ },
-                                modifier = Modifier
-                                    .fillMaxWidth(1f)
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .height(40.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
-                                    modifier = Modifier.fillMaxWidth(0.8f),
-                                ) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.google_logo),
-                                        contentDescription = "Google sign-in",
-                                        tint = Color.Unspecified // Removing tint in order to keep the original icon color
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
-                                    Text(
-                                        text = "Continue with Google",
-                                        fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                                        color = MaterialTheme.colorScheme.onBackground
-                                    )
                                 }
-                            }
-                            Spacer(modifier = Modifier.padding(10.dp))
+                                Spacer(modifier = Modifier.padding(10.dp))
 
-                            Button(
-                                onClick = { showRegistration = true },
-                                modifier = Modifier
-                                    .fillMaxWidth(1f)
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .height(40.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
-                                    modifier = Modifier.fillMaxWidth(0.8f),
+                                Button(
+                                    onClick = { showRegistration = true },
+                                    modifier = Modifier
+                                        .fillMaxWidth(1f)
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .height(40.dp),
+                                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
                                 ) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.logo_250dp),
-                                        contentDescription = "sign-up",
-                                        tint = Color.Unspecified // Removing tint in order to keep the original icon color
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
-                                    Text(
-                                        text = "Register Instead",
-                                        fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                                        color = MaterialTheme.colorScheme.onBackground
-                                    )
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center,
+                                        modifier = Modifier.fillMaxWidth(0.8f),
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.logo_250dp),
+                                            contentDescription = "sign-up",
+                                            tint = Color.Unspecified // Removing tint in order to keep the original icon color
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
+                                        Text(
+                                            text = "Register Instead",
+                                            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                                            color = MaterialTheme.colorScheme.onBackground
+                                        )
+                                    }
                                 }
+                                Spacer(modifier = Modifier.padding(10.dp))
                             }
-                            Spacer(modifier = Modifier.padding(10.dp))
                         }
                     }
+                } else {
+                    val intent = Intent(context, MainActivity::class.java)
+                    context.startActivity(intent)
                 }
             }
         }
