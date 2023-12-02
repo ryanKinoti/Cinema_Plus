@@ -3,6 +3,7 @@ package com.example.cinemaplus.auth
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -287,10 +288,8 @@ class Registration {
                             "phone" to phone,
                             "location" to location,
                             "profile_picture" to "",
-                            "Role" to "Customer",
-                            "Email_Verified" to "false",
-                            "Phone_Verified" to "false",
-                            "Profile_Complete" to "false",
+                            "role" to "customer",
+                            "profile_Complete" to "false",
                         )
                         firebaseUser?.let { user ->
                             FirebaseFirestore.getInstance().collection("users").document(user.uid)

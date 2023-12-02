@@ -46,6 +46,7 @@ fun MyApp() {
     val context = LocalContext.current
     val user by remember { mutableStateOf(FirebaseAuth.getInstance().currentUser) }
     var showMainUI by remember { mutableStateOf(false) }
+    var showAdminUI by remember { mutableStateOf(false) }
     var userData by remember { mutableStateOf(UserData()) }
     var isLoading by remember { mutableStateOf(user != null) } // Initially true if user is not null
 
@@ -57,9 +58,18 @@ fun MyApp() {
                         userData = UserData(
                             fullName = document.getString("fullName") ?: "",
                             username = document.getString("username") ?: "",
-                            location = document.getString("location") ?: ""
+                            location = document.getString("location") ?: "",
+                            role = document.getString("Role") ?: "",
                         )
-                        showMainUI = true // Set to true on successful data fetch
+
+                        if (userData.role == "admin") {
+                            Toast.makeText(context, "Welcome Admin", Toast.LENGTH_SHORT).show()
+                            showAdminUI = true
+                        } else {
+                            Toast.makeText(context, "Welcome User", Toast.LENGTH_SHORT).show()
+                            showMainUI = true // Set to true on successful data fetch
+                        }
+
                     } else {
                         Toast.makeText(context, "Your record does not exist", Toast.LENGTH_SHORT)
                             .show()
@@ -75,7 +85,7 @@ fun MyApp() {
         }
     }
 
-    if (user != null && showMainUI) {
+    if (user != null && showMainUI && showAdminUI) {
         BackHandler {
             // Define what should happen when the back button is pressed
             // For example, you could simply do nothing to disable back navigation:
@@ -95,7 +105,6 @@ fun MyApp() {
                 userName = userData.username,
                 location = userData.location
             )
-
             else -> Login.LoginUI()
         }
     }
@@ -105,7 +114,8 @@ fun MyApp() {
 data class UserData(
     val fullName: String = "",
     val username: String = "",
-    val location: String = ""
+    val location: String = "",
+    val role: String = "",
 )
 
 @Composable
