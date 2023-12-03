@@ -46,6 +46,9 @@ import com.google.relay.compose.relayDropShadow
  * This composable was generated from the UI Package 'landing_page'.
  * Generated code; do not edit directly
  */
+enum class MovieType {
+    MOVIE_13
+}
 @Composable
 fun LandingPage(
     modifier: Modifier = Modifier,
@@ -57,6 +60,7 @@ fun LandingPage(
     val context = LocalContext.current
     var showUserProfile by remember { mutableStateOf(false) }
     var showLandingPage by remember { mutableStateOf(false) }
+    var selectedMovie by remember { mutableStateOf<MovieType?>(null) }
 
     TopLevel(modifier = modifier) {
         TopNavigation(
@@ -112,10 +116,17 @@ fun LandingPage(
                 )
             ) {
                 Contents3 {
-                    Movie13()
+                    Movie13(
+                        onClick = {
+                            selectedMovie = MovieType.MOVIE_13
+                        }
+                    )
                     Movie14()
                     Movie15()
                 }
+            }
+            when(selectedMovie) {
+                MovieType.MOVIE_13 -> MovieContent13()
             }
             TopMovies(
                 modifier = Modifier.boxAlign(
@@ -394,7 +405,10 @@ fun Search(
 }
 
 @Composable
-fun Movie13(modifier: Modifier = Modifier) {
+fun Movie13(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
     RelayImage(
         image = painterResource(R.drawable.landing_page_movie_13),
         radius = 20.0,
@@ -731,8 +745,7 @@ fun OtherHouses(
         modifier = modifier
             .requiredWidth(33.89794921875.dp)
             .requiredHeight(33.89794921875.dp),
-        // You can add styling for the button here
-        contentPadding = PaddingValues(0.dp), // Adjust padding as needed
+        contentPadding = PaddingValues(0.dp),
     ) {
         content()
     }
