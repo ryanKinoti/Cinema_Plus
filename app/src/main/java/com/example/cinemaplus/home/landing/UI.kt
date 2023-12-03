@@ -30,6 +30,7 @@ import com.example.cinemaplus.R
 import com.example.cinemaplus.home.profile.UserProfile
 import com.example.cinemaplus.landingpage.poppins
 import com.example.cinemaplus.landingpage.sFProText
+import com.example.cinemaplus.showpage.MoviePageContent
 import com.google.relay.compose.BorderAlignment
 import com.google.relay.compose.MainAxisAlignment
 import com.google.relay.compose.RelayContainer
@@ -126,7 +127,7 @@ fun LandingPage(
                 }
             }
             when(selectedMovie) {
-                MovieType.MOVIE_13 -> MovieContent13()
+                MovieType.MOVIE_13 -> MoviePageContent()
             }
             TopMovies(
                 modifier = Modifier.boxAlign(
