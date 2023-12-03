@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("com.google.relay")
 }
 
 android {
@@ -54,6 +55,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:22.2.0")
     implementation("com.google.firebase:firebase-firestore:24.9.1")
     implementation ("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
     val fragmentVersion = "1.6.2"
 
     implementation("androidx.core:core-ktx:1.12.0")
